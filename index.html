@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4dham — Penetration Tester | Vulnerability Analyst</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- AOS (Animate On Scroll) -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<style>
+:root{
+  --bg: #030307;
+  --bg-alt: #0b0710;
+  --matrix-green: #00ff41;
+  --neon-red: #ff0033;
+  --text: #e9eef8;
+  --muted-text: rgba(255,255,255,0.75);
+  --card-bg: rgba(255,255,255,0.03);
+  --nav-h: 66px;
+}
+
+/* Light mode overrides */
+body.light{
+  --bg: #f5f5f5;
+  --bg-alt: #ffffff;
+  --matrix-green: #007f3f;
+  --neon-red: #cc0033;
+  --text: #0b0b0b;
+  --muted-text: rgba(0,0,0,0.65);
+  --card-bg: rgba(0,0,0,0.03);
+}
+
+/* Global */
+body{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background: var(--bg);
+  color: var(--text);
+  padding-top: var(--nav-h);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.55;
+  transition: all 0.3s ease;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* Canvas background */
+canvas#bg{
+  position:fixed; inset:0; z-index:-2; display:block;
+  background: linear-gradient(180deg,#020207 0%, #06020a 100%);
+  transition: all 0.3s ease;
+}
+body.light canvas#bg{
+  background: linear-gradient(180deg,#f5f5f5 0%, #ffffff 100%);
+}
+
+/* NAV */
+nav{
+  position:fixed; left:0; right:0; top:0; height:var(--nav-h);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 6%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  border-bottom:1px solid rgba(255,0,51,0.06);
+  z-index:60;
+  transition: all 0.3s ease;
+}
+body.light nav{
+  background: rgba(255,255,255,0.7);
+  border-bottom:1px solid rgba(204,0,51,0.1);
+}
+.logo{font-family:'Orbitron',sans-serif;color:var(--matrix-green);font-weight:700;font-size:1.1rem}
+.nav-links{display:flex;gap:12px;align-items:center}
+nav a{color:var(--text);text-decoration:none;padding:6px 8px;border-radius:6px;transition:all .15s}
+nav a:hover{color:var(--matrix-green);background:rgba(0,255,65,0.03);transform:translateY(-2px)}
+body.light nav a:hover{background: rgba(0,127,63,0.08);}
+
+/* Theme toggle */
+#theme-toggle{background:none;border:none;color:var(--matrix-green);font-size:1.2rem;cursor:pointer;transition:all .3s}
+
+/* HERO / COVER */
+header{padding:90px 8% 48px;text-align:center}
+header h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(2.6rem,6vw,4.8rem);
+  color:var(--matrix-green);
+  letter-spacing:0.8px;
+  text-shadow:0 0 18px rgba(0,255,65,0.1),0 0 40px rgba(255,0,51,0.08);
+  margin-bottom:6px;
+}
+header p{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(1.02rem,2.1vw,1.35rem);
+  color:var(--neon-red);
+  font-weight:600;margin-bottom:18px;
+  text-shadow:0 0 14px rgba(255,0,51,0.4);
+}
+
+/* Hero buttons */
+.hero-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+.btn-hero{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.95rem;
+  text-decoration:none;border:2px solid transparent;cursor:pointer;transition:all .16s}
+.btn-hero.green{ background:var(--matrix-green); color:#031017; border-color:var(--matrix-green); box-shadow: 0 8px 24px rgba(0,255,65,0.06) }
+.btn-hero.red{ background:var(--neon-red); color:#fff; border-color:var(--neon-red); box-shadow: 0 8px 24px rgba(255,0,51,0.06) }
+.btn-hero.green:hover{ background:var(--neon-red); color:#fff; border-color:var(--neon-red); transform:translateY(-4px) }
+.btn-hero.red:hover{ background:var(--matrix-green); color:#071013; border-color:var(--matrix-green); transform:translateY(-4px) }
+
+/* Sections */
+section{padding:56px 8%}
+section:nth-of-type(even){ background:var(--bg-alt) }
+h2{
+  font-family:'Orbitron',sans-serif;
+  font-size:1.9rem;color:var(--neon-red);margin-bottom:16px;padding-bottom:6px;
+  border-bottom:3px solid var(--matrix-green); display:inline-block;
+}
+
+/* grid + cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--card-bg);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);
+  transition:transform .18s, box-shadow .18s; color: var(--text);}
+.card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(255,0,51,0.08) }
+.card i{font-size:2.2rem;color:var(--matrix-green);display:block;margin-bottom:10px}
+.card:hover i{ color:var(--neon-red) }
+
+/* contact form */
+form{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+input,textarea{ background:rgba(255,255,255,0.03); border:none; padding:12px; border-radius:8px; color:var(--text); font-size:1rem; transition: all 0.3s;}
+input:focus, textarea:focus{ outline:2px solid rgba(255,0,51,0.2) }
+body.light input, body.light textarea{ background: rgba(0,0,0,0.03); color: var(--text);}
+button[type=submit]{ padding:12px;border-radius:8px;border:none;font-weight:700;background:var(--neon-red);color:#fff; cursor:pointer; transition:all .16s }
+button[type=submit]:hover{ background:var(--matrix-green); color:#071013 }
+
+.links{ display:flex; gap:12px; justify-content:center; margin-top:14px; flex-wrap:wrap; color: var(--matrix-green);}
+.links a{ color:var(--matrix-green); text-decoration:none; font-weight:600; transition: all 0.3s;}
+body.light .links a{color:var(--matrix-green);}
+
+/* muted text */
+.muted{color: var(--muted-text); transition: all 0.3s;}
+
+/* responsive */
+@media (max-width:720px){
+  header{padding-top:72px}
+  .btn-hero{padding:10px 14px;font-size:0.92rem}
+  h2{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<!-- NAV -->
+<nav data-aos="fade-down">
+  <div class="logo">4dham</div>
+  <div class="nav-links" role="navigation" aria-label="Main">
+    
+    <a href="#about">About</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Work Experience</a>
+    <a href="#services">Offered Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button id="theme-toggle" aria-label="Toggle light/dark mode"><i class="bi bi-sun"></i></button>
+</nav>
+
+<!-- COVER -->
+<header id="cover" data-aos="zoom-in">
+  <h1>Adham Ashraf</h1>
+  <p>Penetration Tester | Vulnerability Analyst</p>
+  <div class="hero-buttons" role="group" aria-label="Quick actions">
+    <a class="btn-hero green" href="https://wa.me/201033779367" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+    <a class="btn-hero red" href="https://www.linkedin.com/in/adhaamashraf" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn</a>
+    <a class="btn-hero green" href="Adhams_CV.pdf" download="Adham_Ashraf_Resume.pdf"><i class="bi bi-download"></i> Resume</a>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about" data-aos="fade-up">
+  <h2>About</h2>
+  <p>I am a passionate cybersecurity practitioner focused on penetration testing and vulnerability research. I enjoy breaking down systems to understand how they can fail — then building clear, practical fixes to make them safer. My approach mixes methodical reconnaissance, hands-on exploitation, and careful reporting so teams can act quickly and confidently.</p>
+  <p>I sharpen my skills through targeted labs, CTF challenges, and active participation in bug bounty programs (HackerOne &amp; Bugcrowd). Technically, I work across web application security, network penetration, cloud basics, and Active Directory environments — using tools like Burp Suite, Nmap, Wireshark, and Metasploit while scripting in Python when needed.</p>
+  <p>I value clear communication and reproducible findings: every report I produce includes concise steps-to-reproduce, risk prioritization, and remediation guidance. I’m always learning new techniques and collaborating to improve security posture.</p>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" data-aos="fade-up">
+  <h2>Education</h2>
+  <div class="grid">
+    <div class="card"><strong>Bachelor of Computer Science &amp; Engineering</strong><br>Ahram Canadian University (2022–2027)</div>
+    <div class="card"><strong>Penetration Testing &amp; Vulnerability Analysis Diploma</strong><br>Digital Egypt Pioneers Initiative (2025)</div>
+    <div class="card"><strong>CCNA</strong><br>National Telecommunication Institute (2025)</div>
+    <div class="card"><strong>Fundamentals of Cybersecurity</strong><br>British University in Egypt (2024)</div>
+    <div class="card"><strong>Infrastructures &amp; Cybersecurity Fundamentals</strong><br>MCIT (2024)</div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" data-aos="fade-up">
+  <h2>Skills</h2>
+  <div class="grid">
+    <div class="card"><i class="bi bi-shield-lock"></i><strong>Penetration Testing &amp; Vulnerability Analysis</strong></div>
+    <div class="card"><i class="bi bi-diagram-3"></i><strong>Networking (CCNA, Routing &amp; Subnetting)</strong></div>
+    <div class="card"><i class="bi bi-code-slash"></i><strong>Python • C++ • Bash</strong></div>
+    <div class="card"><i class="bi bi-window-stack"></i><strong>Web: HTML • CSS • JavaScript • MySQL</strong></div>
+    <div class="card"><i class="bi bi-terminal"></i><strong>Kali • Ubuntu • Windows</strong></div>
+    <div class="card"><i class="bi bi-tools"></i><strong>Burp Suite • Nmap • Wireshark • Metasploit • ffuf</strong></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" data-aos="fade-up">
+  <h2>Work Experience</h2>
+  <div class="grid">
+    <div class="card"><strong>Bug Bounty Hunter</strong> — Bugcrowd (2025–Present)</div>
+    <div class="card"><strong>Bug Bounty Hunter</strong> — HackerOne (2025–Present)</div>
+    <div class="card"><strong>Penetration Tester &amp; Vulnerability Analyst</strong> — DEPI (2025–Present)</div>
+    <div class="card"><strong>Cloud Architect (Intern)</strong> — NTI (2025)</div>
+    <div class="card"><strong>Cybersecurity Trainee</strong> — BUE (2024)</div>
+    <div class="card"><strong>Cybersecurity Intern</strong> — MCIT (2024)</div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" data-aos="fade-up">
+  <h2>Offered Services</h2>
+  <div class="grid">
+    <div class="card"><i class="bi bi-shield-check"></i><strong>Web Application Penetration Testing</strong><p class="muted">SQLi, XSS, authentication, session weaknesses and remediation guidance.</p></div>
+    <div class="card"><i class="bi bi-hdd-network"></i><strong>Network Security Assessment</strong><p class="muted">Scanning, enumeration, misconfigurations, and prioritized remediation.</p></div>
+    <div class="card"><i class="bi bi-bug"></i><strong>Vulnerability Assessment</strong><p class="muted">Systematic scanning, verification, and prioritized reporting.</p></div>
+    <div class="card"><i class="bi bi-flag"></i><strong>Bug Bounty Research</strong><p class="muted">Responsible disclosure and triage across public programs.</p></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" data-aos="fade-up">
+<h2>Projects</h2>
+<div class="grid">
+<div class="card">
+  <i class="bi bi-diagram-3"></i>
+  <strong>Active Directory Attack &amp; Defense Lab</strong>
+  <p class="muted">Built a Windows AD environment and practiced Kerberoasting, Pass-the-Hash, privilege escalation, and detection/mitigation strategies. Documented attack paths and detection guidance.</p>
+</div>
+<div class="card">
+  <i class="bi bi-browser-chrome"></i>
+  <strong>Web Exploitation Labs (TryHackMe / HTB)</strong>
+  <p class="muted">Conducted web application penetration testing on intentionally vulnerable apps, identifying SQL Injection, XSS, broken authentication, and documented exploitation chains and fixes.</p>
+</div>
+<div class="card">
+  <i class="bi bi-hdd-network"></i>
+  <strong>Network Penetration Simulation</strong>
+  <p class="muted">Designed and tested a metropolitan area network; performed scanning, enumeration, host hardening exercises, and created mitigation checklists for network administrators.</p>
+</div>
+<div class="card">
+  <i class="bi bi-journal-code"></i>
+  <strong>Student Grading System</strong>
+  <p class="muted">Academic project implementing secure database handling, role-based access control, and input validation patterns to prevent injection attacks.</p>
+</div>
+<div class="card">
+  <i class="bi bi-book"></i>
+  <strong>Online Library System</strong>
+  <p class="muted">Web-based library platform with authentication, DB integration, and examples of secure coding and session management.</p>
+</div>
+</div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements" data-aos="fade-up">
+<h2>Achievements</h2>
+<div class="grid">
+  <div class="card">Active on HackerOne &amp; Bugcrowd — reported issues and practiced triage</div>
+  <div class="card">Selected — Digital Egypt Pioneers Initiative (Penetration Testing &amp; Vulnerability Analysis)</div>
+  <div class="card">Certifications: CCNA, AWS Academy Cloud Foundations, NTI Cloud Architect</div>
+  <div class="card">Top placements in TryHackMe / HackTheBox labs and CTFs</div>
+  <div class="card">First Place — Preparatory Year EXPO Project, Ahram Canadian University</div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" data-aos="fade-up">
+<h2>Testimonials</h2>
+<div class="grid">
+  <div class="card">"Adham demonstrated excellent technical skill and initiative during our DEPI engagement. His detailed reports and practical remediation steps helped our team prioritize fixes quickly." — <em>Samar El-Gohary, DEPI</em></div>
+  <div class="card">"Worked with Adham on a university network simulation — he showed great persistence and a sharp analytical mindset. Delivered clear write-ups and reproducible PoCs." — <em>Dr. Karim Hamed, ACU</em></div>
+  <div class="card">"Adham provided a focused vulnerability triage for our small web platform. His findings were accurate, well-documented, and actionable." — <em>Youssef Maher, StartSecure</em></div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" data-aos="fade-up">
+<h2>Call to Action & Contact</h2>
+<form action="https://formspree.io/f/yourformid" method="POST" aria-label="Contact form">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="_replyto" placeholder="Your Email" required>
+  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+  <button type="submit">Send Message</button>
+</form>
+<div class="links" aria-label="Contact links">
+  <a href="https://wa.me/201033779367" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+  <a href="https://www.linkedin.com/in/adhaamashraf" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn</a>
+  <a href="https://github.com/0xStr4nge" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>
+  <a href="Adhams_CV.pdf" download="Adham_Ashraf_Resume.pdf" rel="noopener"><i class="bi bi-download"></i> Resume</a>
+</div>
+</section>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({ offset:100, duration:700, easing:'ease-in-out', once:true });
+
+// Theme toggle
+const toggle = document.getElementById('theme-toggle');
+toggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const icon = toggle.querySelector('i');
+  if(document.body.classList.contains('light')){
+    icon.classList.remove('bi-sun'); icon.classList.add('bi-moon');
+  } else {
+    icon.classList.remove('bi-moon'); icon.classList.add('bi-sun');
+  }
+});
+
+// Particle neural network
+const canvas = document.getElementById('bg'), ctx = canvas.getContext('2d');
+let W = canvas.width = innerWidth, H = canvas.height = innerHeight;
+const particles = [], COUNT = 110, CONNECT = 120;
+
+class Part{
+  constructor(){this.x=Math.random()*W; this.y=Math.random()*H; this.vx=(Math.random()-0.5)*0.6; this.vy=(Math.random()-0.5)*0.6; this.r=1.6}
+  step(){this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W)this.vx*=-1; if(this.y<0||this.y>H)this.vy*=-1}
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,65,0.92)'; ctx.fill()}
+}
+function init(){particles.length=0; for(let i=0;i<COUNT;i++)particles.push(new Part());}
+function connect(){for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const a=particles[i],b=particles[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);if(d<CONNECT){const alpha=(1-d/CONNECT)*0.5; ctx.strokeStyle=`rgba(255,0,51,${alpha})`; ctx.lineWidth=1; ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}}}
+function frame(){ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.step();p.draw();}); connect(); requestAnimationFrame(frame);}
+init(); frame();
+addEventListener('resize',()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight;init();});
+</script>
+</body>
+</html>
