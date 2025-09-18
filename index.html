@@ -144,6 +144,10 @@ body.light .links a{color:var(--matrix-green);}
 /* muted text */
 .muted{color: var(--muted-text); transition: all 0.3s;}
 
+
+/* Projects links styling: red, no underline */
+#projects .card a{ color: var(--neon-red); text-decoration: none; font-weight: 700; }
+#projects .card a:hover{ text-decoration: underline; color: var(--matrix-green); }
 /* responsive */
 @media (max-width:720px){
   header{padding-top:72px}
@@ -209,8 +213,8 @@ body.light .links a{color:var(--matrix-green);}
   <h2>Skills</h2>
   <div class="grid">
     <div class="card"><i class="bi bi-shield-lock"></i><strong>Penetration Testing &amp; Vulnerability Analysis</strong></div>
-    <div class="card"><i class="bi bi-diagram-3"></i><strong>Networking (CCNA, Routing &amp; Subnetting)</strong></div>
-    <div class="card"><i class="bi bi-code-slash"></i><strong>Python • C++ • Bash</strong></div>
+    <div class="card"><i class="bi bi-gear-wide-connected"></i><strong>Networking (CCNA, Routing &amp; Subnetting)</strong></div>
+    <div class="card"><i class="bi bi-code-square"></i><strong>Python • C++ • Bash</strong></div>
     <div class="card"><i class="bi bi-window-stack"></i><strong>Web: HTML • CSS • JavaScript • MySQL</strong></div>
     <div class="card"><i class="bi bi-terminal"></i><strong>Kali • Ubuntu • Windows</strong></div>
     <div class="card"><i class="bi bi-tools"></i><strong>Burp Suite • Nmap • Wireshark • Metasploit • ffuf</strong></div>
@@ -235,43 +239,50 @@ body.light .links a{color:var(--matrix-green);}
   <h2>Offered Services</h2>
   <div class="grid">
     <div class="card"><i class="bi bi-shield-check"></i><strong>Web Application Penetration Testing</strong><p class="muted">SQLi, XSS, authentication, session weaknesses and remediation guidance.</p></div>
-    <div class="card"><i class="bi bi-hdd-network"></i><strong>Network Security Assessment</strong><p class="muted">Scanning, enumeration, misconfigurations, and prioritized remediation.</p></div>
+    <div class="card"><i class="bi bi-cloud-haze2"></i><strong>Network Security Assessment</strong><p class="muted">Scanning, enumeration, misconfigurations, and prioritized remediation.</p></div>
     <div class="card"><i class="bi bi-bug"></i><strong>Vulnerability Assessment</strong><p class="muted">Systematic scanning, verification, and prioritized reporting.</p></div>
-    <div class="card"><i class="bi bi-flag"></i><strong>Bug Bounty Research</strong><p class="muted">Responsible disclosure and triage across public programs.</p></div>
+    <div class="card"><i class="bi bi-shield-lock"></i><strong>Bug Bounty Research</strong><p class="muted">Responsible disclosure and triage across public programs.</p></div>
   </div>
 </section>
+
 
 <!-- PROJECTS -->
 <section id="projects" data-aos="fade-up">
 <h2>Projects</h2>
 <div class="grid">
 <div class="card">
-  <i class="bi bi-diagram-3"></i>
-  <strong>Active Directory Attack &amp; Defense Lab</strong>
-  <p class="muted">Built a Windows AD environment and practiced Kerberoasting, Pass-the-Hash, privilege escalation, and detection/mitigation strategies. Documented attack paths and detection guidance.</p>
+  <i class="bi bi-shield-lock"></i>
+  <strong><a href="https://tryhackme.com/module/introduction-to-offensive-pentesting" target="_blank" rel="noopener noreferrer">TryHackMe — Introduction to Pentesting</a></strong>
+  <p class="muted">Followed step-by-step methodology to perform scanning, enumeration, and exploitation basics, learning how to approach structured penetration tests.</p>
 </div>
 <div class="card">
-  <i class="bi bi-browser-chrome"></i>
-  <strong>Web Exploitation Labs (TryHackMe / HTB)</strong>
-  <p class="muted">Conducted web application penetration testing on intentionally vulnerable apps, identifying SQL Injection, XSS, broken authentication, and documented exploitation chains and fixes.</p>
+  <i class="bi bi-globe2"></i>
+  <strong><a href="https://tryhackme.com/path/outline/web" target="_blank" rel="noopener noreferrer">TryHackMe — Web Fundamentals / Web Hacking Fundamentals</a></strong>
+  <p class="muted">Practiced HTTP requests, parameter manipulation, and session handling, identifying and exploiting vulnerabilities like XSS and SQL injection.</p>
 </div>
 <div class="card">
-  <i class="bi bi-hdd-network"></i>
-  <strong>Network Penetration Simulation</strong>
-  <p class="muted">Designed and tested a metropolitan area network; performed scanning, enumeration, host hardening exercises, and created mitigation checklists for network administrators.</p>
+  <i class="bi bi-gear-wide-connected"></i>
+  <strong><a href="https://tryhackme.com/room/pentestingfundamentals" target="_blank" rel="noopener noreferrer">TryHackMe — Pentesting Fundamentals</a></strong>
+  <p class="muted">Performed reconnaissance, service enumeration, and privilege escalation exercises in guided labs to simulate real penetration testing steps.</p>
 </div>
 <div class="card">
-  <i class="bi bi-journal-code"></i>
-  <strong>Student Grading System</strong>
-  <p class="muted">Academic project implementing secure database handling, role-based access control, and input validation patterns to prevent injection attacks.</p>
+  <i class="bi bi-server"></i>
+  <strong><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener noreferrer">PortSwigger Web Security Academy — SQL Injection labs</a></strong>
+  <p class="muted">Solved labs demonstrating error-based and blind SQL injection to extract data and understand safe exploitation techniques.</p>
 </div>
 <div class="card">
-  <i class="bi bi-book"></i>
-  <strong>Online Library System</strong>
-  <p class="muted">Web-based library platform with authentication, DB integration, and examples of secure coding and session management.</p>
+  <i class="bi bi-code-square"></i>
+  <strong><a href="https://portswigger.net/web-security/cross-site-scripting" target="_blank" rel="noopener noreferrer">PortSwigger Web Security Academy — Cross Site Scripting labs</a></strong>
+  <p class="muted">Completed stored and reflected XSS labs by crafting payloads, testing input points, and confirming execution in the victim’s browser.</p>
+</div>
+<div class="card">
+  <i class="bi bi-cloud-haze2"></i>
+  <strong>Hack The Box — Retired Machines</strong>
+  <p class="muted">Solved multiple retired HTB machines (examples: <a href="https://www.hackthebox.com/machines/titanic" target="_blank" rel="noopener noreferrer">Titanic</a>, <a href="https://www.hackthebox.com/machines/usage" target="_blank" rel="noopener noreferrer">Usage</a>, <a href="https://www.hackthebox.com/machines/devvortex" target="_blank" rel="noopener noreferrer">Devvortex</a>) by enumerating services, exploiting misconfigurations, gaining access, and escalating privileges.</p>
 </div>
 </div>
 </section>
+
 
 <!-- ACHIEVEMENTS -->
 <section id="achievements" data-aos="fade-up">
